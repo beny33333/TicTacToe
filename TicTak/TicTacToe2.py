@@ -1,77 +1,84 @@
-
-
-
-A = ['.','.','.']
-B = ['.','.','.']
-C = ['.','.','.']
-LISTA = [A,B,C]
-
-# def lista():
-#     global A
-#     global B
-#     global C
-#     global LIST
-#     A = ['.','.','.']
-#     B = ['.','.','.']
-#     C = ['.','.','.']
-#     LIST = [A,B,C] 
+import random
 
 def init_board():
     if A == ['.','.','.'] and B == ['.','.','.'] and C == ['.','.','.']:
-        print_board()
-    
-   
-    # if A == ['.','.','.'] and B == ['.','.','.'] and C == ['.','.','.']:
-    #     print_board()
-    # if (A != ['.','.','.'] or B != ['.','.','.'] or C != ['.','.','.']) and any(win_result) is False:
-    #     print_board()
-    # # if (A != ['.','.','.'] or B != ['.','.','.'] or C != ['.','.','.']) and any(win_result) is True:
-    # #     A[0] = '.' and A[1] = '.' and A[2] = '.' and B[0] = '.' and B[1] = '.' and B[2] = '.' and C[0] = '.' and C[1] = '.' and C[2] = '.'
-    # #     print_board()
-    # return A,B,C
-
+        pass
 
 def get_move():
-    global literaki
-    global used_coordinates
+    global user_coordinate
     global coordinates_list
     coordinates_list = ['A1','A2','A3','B1','B2','B3','C1','C2','C3']
-    used_coordinates = []
     
-    literaki = str(input("Wprowadź koordynaty:"))
-    
-    while literaki.upper() in coordinates_list and literaki.upper() not in used_coordinates:
-        used_coordinates.append(literaki)
-    return literaki
+    while True:
+        if (len(used_coordinates) == 0) or (len(used_coordinates) == 2) or (len(used_coordinates) == 4) or (len(used_coordinates) == 6) or (len(used_coordinates) == 8):
+            user_coordinate = str(input("\nPlayer X insert your coordinate:")).upper()
+        else:
+            user_coordinate = str(input("\nPlayer 0 insert your coordinate:")).upper()
+        if user_coordinate in coordinates_list and user_coordinate not in used_coordinates:
+            used_coordinates.append(user_coordinate)
+            break
+        else:
+            print_board()
+            print("\nInvalid coordinate or already used!")
+            continue 
+    return user_coordinate
+
+def get_AI_move():
+    global AI_move
+    while True:
+        AI_move = random.choice(coordinates_list)
+        if AI_move not in used_coordinates:
+            used_coordinates.append(AI_move)
+            break
+        else:
+            continue
 
 def mark():
-    # D = ['X','0','X','0','X','0','X','0','X']
-    # PlayerX = D[0], D[2], D[4], D[6], D[8]
-    # Player0 = D[1], D[3], D[5], D[7]
-    # print(PlayerX)
-    mark_istead_of_dot = ('X' or '0')
-    if literaki == 'A1' and A[0] == '.':
+    if (len(used_coordinates) == 1) or (len(used_coordinates) == 3) or (len(used_coordinates) == 5) or (len(used_coordinates) == 7) or (len(used_coordinates) == 9):
+        mark_istead_of_dot = 'X'
+    else:
+        mark_istead_of_dot = '0'
+    if user_coordinate == 'A1' and A[0] == '.':
         A[0] = mark_istead_of_dot
-    if literaki == 'A2' and A[1] == '.':
+    if user_coordinate == 'A2' and A[1] == '.':
         A[1] = mark_istead_of_dot
-    if literaki == 'A3' and A[2] == '.':
+    if user_coordinate == 'A3' and A[2] == '.':
         A[2] = mark_istead_of_dot
-    if literaki == 'B1' and B[0] == '.':
+    if user_coordinate == 'B1' and B[0] == '.':
         B[0] = mark_istead_of_dot
-    if literaki == 'B2' and B[1] == '.':
+    if user_coordinate == 'B2' and B[1] == '.':
         B[1] = mark_istead_of_dot
-    if literaki == 'B3' and B[2] == '.':
+    if user_coordinate == 'B3' and B[2] == '.':
         B[2] = mark_istead_of_dot
-    if literaki == 'C1' and C[0] == '.':
+    if user_coordinate == 'C1' and C[0] == '.':
         C[0] = mark_istead_of_dot
-    if literaki == 'C2' and C[1] == '.':
+    if user_coordinate == 'C2' and C[1] == '.':
         C[1] = mark_istead_of_dot
-    if literaki == 'C3' and C[2] == '.':
+    if user_coordinate == 'C3' and C[2] == '.':
         C[2] = mark_istead_of_dot
-    if literaki not in coordinates_list and literaki in used_coordinates:
-        return None
     return mark_istead_of_dot
 
+def AI_mark():
+    mark_istead_of_dot = '0'
+    if AI_move == 'A1' and A[0] == '.':
+        A[0] = mark_istead_of_dot
+    if AI_move == 'A2' and A[1] == '.':
+        A[1] = mark_istead_of_dot
+    if AI_move == 'A3' and A[2] == '.':
+        A[2] = mark_istead_of_dot
+    if AI_move == 'B1' and B[0] == '.':
+        B[0] = mark_istead_of_dot
+    if AI_move == 'B2' and B[1] == '.':
+        B[1] = mark_istead_of_dot
+    if AI_move == 'B3' and B[2] == '.':
+        B[2] = mark_istead_of_dot
+    if AI_move == 'C1' and C[0] == '.':
+        C[0] = mark_istead_of_dot
+    if AI_move == 'C2' and C[1] == '.':
+        C[1] = mark_istead_of_dot
+    if AI_move == 'C3' and C[2] == '.':
+        C[2] = mark_istead_of_dot
+    return mark_istead_of_dot
     
 def has_won():
     global win_result
@@ -112,71 +119,60 @@ def print_board():
          '  -----+-----+------\n C '
          ,C[0],' | ',C[1],' | ',C[2],' ')
 
-
 def print_result():
     if any(win_result[0:8]) == True:
         print_board()
-        print("Wygrał gracz X!")
+        print("Player X won!")
         main_menu()
     if any(win_result[8:]) == True:
         print_board()
-        print("wygrał gracz O") 
+        print("Player 0 won!") 
         main_menu()
     if win_result is False and not '.' in A and not '.' in B and not '.' in C:
         print_board()
-        print("It's tie")
+        print("It's tie!")
         main_menu()
     else:
         print_board()
-        main()
+        tictactoe_game()
     
-def main():
-    # LISTA = [A,B,C]
-    init_board()
-    # if ('X' or '0') in (A or B or C):
-    get_move()
-    mark()
-    has_won()
-    is_full()
-    print_result()
+def tictactoe_game():
+    if game_mode == '1':
+        init_board()
+        get_move()
+        mark()
+        has_won()
+        is_full()
+        print_result()
+    if game_mode == '2':
+        init_board()
+        if (len(used_coordinates) == 0) or (len(used_coordinates) == 2) or (len(used_coordinates) == 4) or (len(used_coordinates) == 6) or (len(used_coordinates) == 8):
+            get_move()
+            mark()
+        else:
+            get_AI_move()
+            AI_mark()
+        has_won()
+        is_full()
+        print_result()
+
 
 def main_menu():
-    Tryb_gry = input('Jeśli chcesz zagrać sam ze sobą to se graj i napisz yes or no : ''\n')
-    if Tryb_gry == 'yes':
-        # A[0] == '.' and A[1] == '.' and A[2] == '.' and B[0] == '.' and B[1] == '.' and B[2] == '.' and C[0] == '.' and C[1] == '.' and C[2] == '.'
-        main()
-    # else:
-    #     main_menu()
-
+    welcome = input("If you want to play TicTacToe game insert 'yes'. If not - 'quit':\n")
+    if welcome == 'yes':
+        global A
+        global B
+        global C
+        global used_coordinates
+        global game_mode
+        A = ['.','.','.']
+        B = ['.','.','.']
+        C = ['.','.','.']
+        used_coordinates = []
+        game_mode = input('\nChoose a mode:\nMultiplayer - 1\nSingle player - 2:\n')
+        print_board()
+        tictactoe_game()
 
 if __name__ == "__main__":
+    print('Welcome in TicTacToe game! Have fun :)\n')
     main_menu()
-
-
-
-
-    # D = [X,0,X,0,X,0,X,0,X]
-    # Player X = D[0], D[2], D[4], D[6], D[8]
-    # Player 0 = D[1,3,5,7]
-    # print Player X
-
-
-# init_board(LISTA)
-# get_move(coordinates_list, used_coordinates)
-
-
-
-
-
-
-
-
-
-
-# init_board()
-# get_move()
-# mark()
-# has_won()
-# is_full()
-# print_board()
-# print_result()
